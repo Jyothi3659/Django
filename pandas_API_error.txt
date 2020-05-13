@@ -1,0 +1,4 @@
+error : 'ModelBase' object is not iterable
+views:
+serializer = CovidSerializer(covid, many=True)
+pass the iterable object like queryset object to serializer not model object

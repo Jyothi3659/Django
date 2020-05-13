@@ -1,0 +1,202 @@
+<html>
+  <head>
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+
+      // Load the Visualization API and the controls package.
+      google.charts.load('current', {'packages':['corechart', 'controls']});
+      google.charts.load("current", {'packages':["corechart"]});
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.charts.load('current', {'packages':['bar','corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      google.charts.setOnLoadCallback(drawDashboard);
+      //google.charts.setOnLoadCallback(drawChart);
+      //google.setOnLoadCallback(drawChart);
+
+      // Callback that creates and populates a data table,
+      // instantiates a dashboard, a range slider and a pie chart,
+      // passes in the data and draws it.
+      //covid_data = result[0]
+      var covidData = {{ result|safe }};
+      var titanicData = {{ titanic|safe }};
+      function drawDashboard() {
+        var data_table = new google.visualization.DataTable();
+        data_table.addColumn('string', 'country');
+        data_table.addColumn('number', 'confirmed');
+        data_table.addColumn('number', 'death');
+        data_table.addColumn('number', 'recovered');
+        data_table.addRows(covidData);
+        var group_data1 = google.visualization.data.group(data_table, [1], [{'column': 3, 'aggregation': google.visualization.data.sum, 'type': 'number'},
+        {
+          'aggregation': google.visualization.data.sum,
+          'column': 1,
+          'label': data_table.getColumnLabel(1),
+          'type': 'number'
+        }]);
+
+          var titanic_data_table = new google.visualization.DataTable();
+          titanic_data_table.addColumn('number', 'survived');
+          titanic_data_table.addColumn('number', 'pclass');
+          titanic_data_table.addColumn('string', 'name');
+          titanic_data_table.addColumn('string', 'sex');
+        titanic_data_table.addColumn('number', 'age');
+        titanic_data_table.addColumn('number', 'sibsp');
+        titanic_data_table.addColumn('number', 'parch');
+        titanic_data_table.addColumn('string', 'ticket');
+        titanic_data_table.addColumn('number', 'fare');
+        titanic_data_table.addColumn('string', 'cabin');
+        titanic_data_table.addColumn('string', 'embarked');        
+        titanic_data_table.addRows(titanicData);
+        var group_data3 = google.visualization.data.group(titanic_data_table, [3], [{'column': 8, 'aggregation': google.visualization.data.sum, 'type': 'number'}]);
+        var group_data2 = google.visualization.data.group(data_table, [0], [{'column': 2, 'aggregation': google.visualization.data.sum, 'type': 'number'}]);
+
+        // Create a dashboard.
+        var dashboard = new google.visualization.Dashboard(
+            document.getElementById('dashboard_div'));
+
+        // Create a range slider, passing some options
+        var country_selection1 = new google.visualization.ControlWrapper({
+          'controlType': 'CategoryFilter',
+          'containerId': 'filter_div2',
+          'options': {
+            'filterColumnLabel': 'country'
+          }
+        });
+
+        var country_selection2 = new google.visualization.ControlWrapper({
+          'controlType': 'CategoryFilter',
+          'containerId': 'filter_div',
+          'options': {
+            'filterColumnLabel': 'country'
+          }
+        });
+      
+        // Create a pie chart, passing some options
+        var columnChart = new google.visualization.ChartWrapper({
+          'chartType': 'PieChart',
+          'containerId': 'chart_div',
+          'options': {
+            'width': 500,
+            'height': 300,
+            'pieSliceText': 'value',
+            'legend': 'right'
+          }
+        });
+        var columnChart2 = new google.visualization.ChartWrapper({
+          'chartType': 'ColumnChart',
+          'containerId': 'chart_div2',
+          'options': {
+            'width': 500,
+            'height': 300,
+            'pieSliceText': 'value',
+            'legend': 'right'
+          }
+        });
+        var options = {
+          chart: {
+            title: '',
+            subtitle: '',
+          },
+          colors: ['#e67300','#3BB300'],
+          legend: { position: 'none',
+                    alignment: 'end',  
+                },
+           vAxis: {
+                    gridlines: {
+                        color: '#eee6ff', count: 1,
+                    }
+                },      
+        };
+        // Establish dependencies, declaring that 'filter' drives 'pieChart',
+        // so that the pie chart will only display entries that are let through
+        // given the chosen slider range.
+
+        
+       // var piechart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        //piechart.draw(group_data1, country_selection1);
+
+        //dashboard.bind(country_selection2, columnChart2);
+        //var barchart = new google.visualization.ColumnChart(document.getElementById('chart_div2'));
+        //barchart.draw(group_data2, country_selection2);
+        //var scatterchart = new google.visualization.ScatterChart(document.getElementById('chart_div1'));
+        //scatterchart.draw(group_data2, country_selection2);
+        //var bubblechart = new google.visualization.BubbleChart(document.getElementById('chart_div3'));
+       // bubblechart.draw(group_data2, country_selection2);
+        // Draw the dashboard.
+        dashboard.bind(country_selection1, columnChart);
+        dashboard.draw(group_data1);
+        //drawchaart.draw(group_data2);
+      
+      }
+      function drawChart() {
+      var titanic_data_table = new google.visualization.DataTable();
+      titanic_data_table.addColumn('number', 'survived');
+      titanic_data_table.addColumn('number', 'pclass');
+      titanic_data_table.addColumn('string', 'name');
+      titanic_data_table.addColumn('string', 'sex');
+      titanic_data_table.addColumn('number', 'age');
+      titanic_data_table.addColumn('number', 'sibsp');
+      titanic_data_table.addColumn('number', 'parch');
+      titanic_data_table.addColumn('string', 'ticket');
+      titanic_data_table.addColumn('number', 'fare');
+      titanic_data_table.addColumn('string', 'cabin');
+      titanic_data_table.addColumn('string', 'embarked');        
+      titanic_data_table.addRows(titanicData);
+      var group_data3 = google.visualization.data.group(titanic_data_table, [3], [{'column': 8, 'aggregation': google.visualization.data.sum, 'type': 'number'}]);
+      var group_data4 = google.visualization.data.group(titanic_data_table, [0], [{'column': 8, 'aggregation': google.visualization.data.sum, 'type': 'number'}]);
+      var options = {
+        chart: {
+          title: '',
+          subtitle: '',
+        },
+        colors: ['#e67300','#3BB300'],
+        legend: { position: 'none',
+                  alignment: 'end',  
+              },
+         vAxis: {
+                  gridlines: {
+                      color: '#eee6ff', count: 1,
+                  }
+              },      
+      };
+      var chart = new google.charts.Bar(document.getElementById('chart_div'));
+
+      chart.draw(group_data3, google.charts.Bar.convertOptions(options));
+      var chart = new google.visualization.BubbleChart(document.getElementById('chart_div'));
+      chart.draw(group_data4, options);
+    }
+
+    </script>
+  </head>
+
+  <body>
+    
+    <!--Div that will hold the dashboard-->
+    <div id="dashboard_div">
+      <!--Divs that will hold each control and chart-->
+      <div id="filter_div"></div>
+      <div id="filter_div2"></div>
+      <div id="chart_div"></div>
+      <div id="chart_div1"></div>
+      <div id="chart_div2"></div>
+      <div id="chart_div3"></div>
+      <div id="chart_div4"></div>
+      <!-- <!-- <div class="googlecharts">
+        <div class="row" id="chart_div"></div>
+        <div class="r" id = "chart_div1"></div>
+        <div class="chart_div"></div>div id="chart_div"></div>
+      <div id="chart_div1"></div>
+      </div> -->
+      <!-- <div style="width: 30%; float:left"id="chart_div"></div>
+         
+         <div style="width: 30%; float:right"id="chart_div1"></div>
+
+         <div style="width: 40%; float:right"id="chart_div2"></div> -->
+      <!-- <div id="chart_div"></div>
+      <div id="chart_div1"></div> -->
+      <!-- <div id="chart_div3"></div> --> 
+    </div>
+  </body>
+</html>

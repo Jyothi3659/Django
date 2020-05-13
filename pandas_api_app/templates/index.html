@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<p> countries drop-down list:</p>
+
+<form action="" method="POST">
+  <label for="country">Choose a country:</label>
+  
+  <select name="country">
+    {% for country_each in country %}
+    <option value="{{ country_each }}">{{ country_each }}</option>
+    {% endfor %}
+</select>
+  
+<button type="submit" value="submit">Submit</button>
+</form>
+{% if image %}
+  <img src="data:image/png;base64  , {{image}}" alt = "image not found" height="500", width="600">4
+{% endif %}
+{% for each_image in plot %}
+<img src="data:image/png;base64  , {{each_image}}" alt = "image not found" height="300", width="300">
+{% endfor %}
+</body>
+</html>

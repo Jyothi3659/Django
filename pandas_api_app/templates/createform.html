@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header card-header-icon" data-background-color="rose">
+              <i class="material-icons">assessment</i>
+                </div>
+                  <div class="card-content">
+                    <h4 class="card-title">Problem Edit Form</h4>
+                     <form action="" class="form-horizontal" method="POST" id="editproblem">
+                      {%csrf_token%}
+                      <div class="row">
+                          <label class="col-md-2 label-on-left">Name:<star><font color="red">*</font></star></label>
+                          <div class="col-md-4">
+                              <div class="form-group label-floating is-empty">
+                                  <label class="control-label"></label>
+                                  <input type="text" class="form-control" name="name" id="name" value="{{name}}">
+                              <span class="material-input"></span><span class="material-input"></span></div>
+                          </div>
+                          <label class="col-md-2 label-on-left">Role:<star><font color="red">*</font></star></label>
+                          <div class="col-md-4">
+                              <div class="form-group label-floating is-empty">
+                                  <label class="control-label"></label>
+                                  <input type="text" class="form-control" name="role" id="role" value="{{role}}">
+                              <span class="material-input"></span><span class="material-input"></span></div>
+                          </div>
+                      <div class="row">
+                        <label class="col-md-2 label-on-left">Email:<star><font color="red">*</font></star></label>
+                        <div class="col-md-4">
+                            <div class="form-group label-floating is-empty">
+                                <label class="control-label"></label>
+                                <input type="text" class="form-control" name="email" id="email" value="{{email}}">
+                            <span class="material-input"></span><span class="material-input"></span></div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-fill btn-rose">Submit<div class="ripple-container"></div></button>
+                        <button type="cancel" class="btn btn-warning" onclick="window.location='/problemlist/';return false;">Cancel<div class="ripple-container"></div></button> 
+                      </div>
+                </form>
+             </div>
+           </div>
+      </div>
+  </div>
+  
+</body>
+</html>

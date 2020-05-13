@@ -1,0 +1,222 @@
+<html>
+      <head>
+        <!--Load the bootstrap API-->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <!--Load the AJAX API-->
+        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+        <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        
+        </head>
+    <body>
+        <script type="text/javascript">
+          // Load the Visualization API and the piechart package.
+          google.load('visualization', '1.0', {'packages':['corechart']});
+
+          // Set a callback to run when the Google Visualization API is loaded.
+          google.setOnLoadCallback(drawChart);
+
+          // Callback that creates and populates a data table,
+          // instantiates the pie chart, passes in the data and
+          // draws it.
+          var djangoData1 = {{ result|safe }};
+          var titanicData = {{ titanic|safe }};
+          function drawChart() {
+            var data_table = new google.visualization.DataTable();
+            data_table.addColumn('string', 'country');
+            data_table.addColumn('number', 'confirmed');
+            data_table.addColumn('number', 'death');
+            data_table.addColumn('number', 'recovered');
+            data_table.addRows(djangoData1);
+            var group_data_confirmed = google.visualization.data.group(data_table, [0], [{'column': 1, 'aggregation': google.visualization.data.sum, 'type': 'number'}]);
+            var group_data_death= google.visualization.data.group(data_table, [0], [{'column': 2, 'aggregation': google.visualization.data.sum, 'type': 'number'}]);
+            var group_data_recovered = google.visualization.data.group(data_table, [0], [{'column': 3, 'aggregation': google.visualization.data.sum, 'type': 'number'}]);
+            var group_data_all = google.visualization.data.group(data_table, [0], [{'column': 1, 'aggregation': google.visualization.data.sum, 'type': 'number'},
+            {
+              'aggregation': google.visualization.data.sum,
+              'column': 2,
+              'label': data_table.getColumnLabel(1),
+              'type': 'number'},
+              {
+                'aggregation': google.visualization.data.sum,
+                'column': 3,
+                'label': data_table.getColumnLabel(1),
+                'type': 'number'}]);
+            
+            var titanic_data_table = new google.visualization.DataTable();
+            titanic_data_table.addColumn('number', 'survived');
+            titanic_data_table.addColumn('number', 'pclass');
+            titanic_data_table.addColumn('string', 'name');
+            titanic_data_table.addColumn('string', 'sex');
+            titanic_data_table.addColumn('number', 'age');
+            titanic_data_table.addColumn('number', 'sibsp');
+            titanic_data_table.addColumn('number', 'parch');
+            titanic_data_table.addColumn('string', 'ticket');
+            titanic_data_table.addColumn('number', 'fare');
+            titanic_data_table.addColumn('string', 'cabin');
+            titanic_data_table.addColumn('string', 'embarked');        
+            titanic_data_table.addRows(titanicData);
+            var options = {
+        chart: {
+          title: '',
+          subtitle: '',
+        },
+        colors: ['#e67300','#3BB300'],
+        legend: { position: 'none',
+                  alignment: 'end',  
+              },
+         vAxis: {
+                  gridlines: {
+                      color: '#eee6ff', count: 1,
+                  }
+              },      
+      };
+            var group_data_gender = google.visualization.data.group(titanic_data_table, [3], [{'column': 8, 'aggregation': google.visualization.data.sum, 'type': 'number'},
+            {
+              'aggregation': google.visualization.data.sum,
+              'column': 4,
+              'label': data_table.getColumnLabel(1),
+              'type': 'number'},
+              {
+                'aggregation': google.visualization.data.sum,
+                'column': 1,
+                'label': data_table.getColumnLabel(1),
+                'type': 'number'}]);
+            var group_data_gender_embarked = google.visualization.data.group(titanic_data_table, [0], [{'column': 8, 'aggregation': google.visualization.data.sum, 'type': 'number'}]);
+            var group_data_survived = google.visualization.data.group(titanic_data_table, [4], [{'column':8, 'aggregation': google.visualization.data.sum, 'type': 'number'}]);
+            var group_data_gender_pclass = google.visualization.data.group(titanic_data_table, [3], [{'column':1, 'aggregation': google.visualization.data.sum, 'type': 'number'}]);
+            var group_data_gender_count = google.visualization.data.group(titanic_data_table, [3], [{'column':4, 'aggregation': google.visualization.data.count, 'type': 'number'}]);
+            
+            // Create the data table.
+      
+            // Set chart options
+            var options1 = {'title':'confirmed cases in each country',
+                           'width':300,
+                           'height':300};
+            // Set chart options
+            var options2 = {'title':'death in each country',
+                           'width':300,
+                           'height':300};
+            var options3 = {'title':'recovered cases in each country',
+            'width':300,
+            'height':300};
+            // Set chart options
+            var options4 = {'title':'all cases in each country',
+                           'width':300,
+                           'height':300};
+            var options5 = {'title':'based on gender pclass and fare',
+            'width':300,
+            'height':300};
+
+            var options6 = {'title':'group by gender on embarked',
+            'width':300,
+            'height':300};
+            
+            
+          var options7 = {
+          title: 'country',
+          legend: { position: 'none' },
+          colors: ['#e7711c'],
+          histogram: { lastBucketPercentile: 5},
+          vAxis: { scaleType: 'mirrorLog'},
+          'width':300,
+          'height':300
+          };
+
+          var options8 = {
+            title: 'all cases in country',
+            legend: { position: 'none' },
+            colors: ['#e7711c'],
+            histogram: { lastBucketPercentile: 5},
+            vAxis: { scaleType: 'mirrorLog'},
+            'width':300,
+            'height':300
+            };
+
+            var options9 = {'title':'group by survived',
+            'width':300,
+            'height':300};
+
+            var options10 = {
+              title : 'country',
+              vAxis: {title: 'gender'},
+              hAxis: {title: 'pclass_fare'},
+              seriesType: 'bars',
+              series: {5: {type: 'line'}}
+            };
+            var options11 = {'title':'pclass by group of gender',
+            'width':300,
+            'height':300};
+            var options12 = {'title':'count of male and female',
+                           'width':400,
+                           'height':300};
+
+            // Instantiate and draw our chart, passing in some options.
+            var chart = new google.visualization.Histogram(document.getElementById('chart_div'));
+            chart.draw(group_data_confirmed, options8);
+            var chart2 = new google.visualization.PieChart(document.getElementById('chart_div1'));
+            chart2.draw(group_data_death, options2);
+            var chart3 = new google.visualization.LineChart(document.getElementById('chart_div2'));
+            chart3.draw(group_data_recovered, options3);
+            var chart4 = new google.visualization.Histogram(document.getElementById('chart_div3'));
+            chart4.draw(group_data_all, options8);
+            var chart = new google.visualization.ColumnChart(document.getElementById('chart_div4'));
+            chart.draw(group_data_gender, options5);
+            var chart = new google.visualization.ColumnChart(document.getElementById('chart_div5'));
+            chart.draw(group_data_gender_embarked, options6);
+            var chart = new google.visualization.LineChart(document.getElementById('chart_div6'));
+            chart.draw(group_data_survived, options9);
+            var chart = new google.visualization.ScatterChart(document.getElementById('chart_div7'));
+            chart.draw(group_data_survived, options8);
+            var chart = new google.visualization.ComboChart(document.getElementById('chart_div8'));
+            chart.draw(group_data_gender, options10);
+            var chart = new google.visualization.BarChart(document.getElementById('chart_div9'));
+            chart.draw(group_data_gender, options11);
+            var chart = new google.visualization.ColumnChart(document.getElementById('chart_div10'));
+            chart.draw(group_data_gender_count, options12);
+            var chart = new google.visualization.LineChart(document.getElementById('chart_div11'));
+            chart.draw(group_data_gender_embarked, options6);
+          }
+        </script>   
+         <div class = "container">
+
+         <div class="row">
+           <div class="col" id = "chart_div">1 of 1</div>
+           <div class="col" id = "chart_div1">2 of 1</div>
+           <div class="col" id = "chart_div2">3 of 1</div>
+         </div>
+         <div class="row">
+          <div class="col" id = "chart_div3">1 of 2</div>
+          <div class="col" id = "chart_div4">2 of 2</div>
+          <div class="col" id = "chart_div5">3 of 2</div>
+        </div>
+        <div class="row">
+          <div class="col" id = "chart_div6">1 of 3</div>
+          <div class="col" id = "chart_div7">2 of 3</div>
+          <div class="col" id = "chart_div8">3 of 3</div>
+        </div>
+        <div class="row">
+          <div class="col" id = "chart_div9">1 of 4</div>
+          <div class="col" id = "chart_div10">2 of 4</div>
+          <div class="col" id = "chart_div11">3 of 4</div>
+        </div>
+
+        </div>
+        <!-- <div class = "container"> -->
+
+          <!-- <div class="row">
+            <div class="col" id = "chart_div6"></div>
+            <div class="col">2 of 1</div>
+          </div>
+          <div class="row">
+           <div class="col">1 of 2</div>
+           <div class="col">2 of 2</div>
+           <div class="col">3 of 3</div>
+         </div>
+ 
+         </div>
+      </body>
+    </html>

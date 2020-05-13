@@ -1,0 +1,27 @@
+add a management/commands directory to the application. 
+Django will register a manage.py command for each Python module in that directory whose name doesn’t begin with an underscore
+take a csv file and download in managament folder
+import kaggle
+kaggle.api.authenticate()
+kaggle.api.dataset_download_files('sudalairajkumar/novel-corona-virus-2019-dataset', unzip=True)
+df = pd.read_csv(r'covid_19_data.csv')
+write a code to populate data to models
+--------------------------------------------------------------------
+step 1: Iterate over a csv file using iterrows()
+step 2: change type to dict object
+step 3: take a empty list and append the dict object to list
+step 4: populate the data using bulk create to models by passing the list 
+step 5: Run the command python manage.py <filename>
+-----------------------------------------------------------------------
+Then the data will be populated to django models and database
+Access data from models and change models to dataframe 
+df = covid.to_dataframe()
+get the unique country names from dataframe
+country = list(df['country'].unique())
+return list of all the countries to html page
+------------------------------------------------------------------------------
+create templates folder and create html page inside the templates folder
+pass the values to dropdown 
+select a country from dropdown from and click submit
+-------------------------------------------------------------------------------
+

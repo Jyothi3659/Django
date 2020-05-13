@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-icon" data-background-color="rose">
+                    <i class="material-icons">assessment</i>
+                </div>
+                  <div class="card-content">
+                    <h4 class="card-title">Problems List</h4>
+                    <div class="table-responsive">
+                      <a href="/add-titanic/"><button type="button" class="btn btn-info pull-right">Add titanic<div class="ripple-container"></div></button></a>
+                        <table class="table">
+                            <thead>
+                              <tr>
+                                  <th>survived</th>
+                                  <th>pclass</th>
+                                  <th>name</th>
+                                  <th>sex</th>
+                                  <th>age</th>
+                                  <th>sibsp</th>
+                                  <th>parch</th>
+                                  <th>ticket</th>
+                                  <th>fare</th>
+                                  <th>cabin</th>
+                                  <th>embarked</th>
+                          
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {% for l in titanic_obj %}      
+                                <tr>
+                                  <td>{{l.survived}}</td>
+                                  <td>{{l.pclass}}</td>
+                                  <td>{{l.name}}</td>
+                                  <td>{{l.sex}}</td>
+                                  <td>{{l.age}}</td>
+                                  <td>{{l.sibsp}}</td>
+                                  <td>{{l.parch}}</td>
+                                  <td>{{l.ticket}}</td>
+                                  <td>{{l.fare}}</td>
+                                  <td>{{l.cabin}}</td>
+                                  <td>{{l.embarked}}</td>
+                              
+                                  <!-- <td>{{l.active}}</td> -->
+                                  <td class="td-actions text-left">
+                                      <a href="/edit-titanic/{{l.id}}">
+                                        <button type="button" rel="tooltip" class="btn btn-success" data-original-title="" title="Edit"><i class="material-icons">edit</i></button>
+                                      </a>
+                                        <button type="button" rel="tooltip" class="btn btn-danger" data-original-title="" title="Delete" name="delete" value="{{l.id}}"><i class="material-icons">delete</i></button>
+                                  </td>
+                                </tr>
+                              {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

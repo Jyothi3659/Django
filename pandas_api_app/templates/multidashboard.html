@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+<body>
+    <script type="text/javascript">
+    
+        google.charts.load('current', {
+            callback: drawStuff,
+            packages:['corechart', 'controls']
+          });
+          
+          function drawStuff() {
+            var dashboard = new google.visualization.Dashboard(
+              document.getElementById('dashboard_div')
+            );
+          
+            // Combined dataset
+            var data_table = new google.visualization.DataTable();
+          data_table.addColumn('string', 'country');
+          data_table.addColumn('number', 'confirmed');
+          data_table.addColumn('number', 'death');
+          data_table.addRows(djangoData1);
+          var group_data = google.visualization.data.group(data_table, [0], [{'column': 2, 'aggregation': google.visualization.data.sum, 'type': 'number'}]);
+          
+          
+            var programmaticFilter = new google.visualization.ControlWrapper({
+              controlType: 'CategoryFilter',
+              containerId: 'control_div',
+              options: {
+                filterColumnLabel: 'country',
+                ui: {
+                  labelStacking: 'vertical'
+                }
+              }
+            });
+          
+            var programmaticChart_Carlos = new google.visualization.ChartWrapper({
+              chartType: 'ColumnChart',
+              containerId: 'chart_div_Carlos',
+              options: {
+                width: 290,
+                height: 220,
+                chartArea: {'left': 20, 'top': 20, 'right': 0, 'bottom': 0},
+                pieSliceText: 'value',
+                pieHole: 0.4,
+                legend: {position: 'left', textStyle: {color: 'black', fontSize: 9, fontName: 'Garamond' }},
+                pieSliceBorderColor: 'Black'
+              },
+              view: {
+                columns: [0, 1]
+              }
+            });
+            programmaticChart_Carlos.setOption('title', 'Carlos');
+          
+            var programmaticChart_Josh = new google.visualization.ChartWrapper({
+              chartType: 'PieChart',
+              containerId: 'chart_div_Josh',
+              options: {
+                width: 290,
+                height: 220,
+                chartArea: {'left': 20, 'top': 20, 'right': 0, 'bottom': 0},
+                pieSliceText: 'value',
+                pieHole: 0.4,
+                legend: {position: 'left', textStyle: {color: 'black', fontSize: 9, fontName: 'Garamond' }},
+                pieSliceBorderColor: 'Black'
+              },
+              view: {
+                columns: [0, 2]
+              }
+            });
+           // programmaticChart_Josh.setOption('title', 'Josh');
+          
+            dashboard.bind(
+              programmaticFilter,
+              [programmaticChart_Carlos, programmaticChart_Josh]
+            );
+            dashboard.draw(data);
+          }
+          .ggl-dashboard {
+            border: 1px solid #ccc;
+          }
+          
+          .ggl-control (
+            min-width: 250px;
+            padding-left: 2em;
+          )
+          
+          .ggl-chart (
+            display: inline-block;
+          )
+    
+    
+    
+    
+    </script>
+    <div class="ggl-dashboard" id="dashboard_div">
+        <div class="ggl-control" id="control_div"></div>
+        <div class="ggl-chart" id="chart_div_Carlos"></div>
+        <div class="ggl-chart" id="chart_div_Josh"></div>
+      </div>
+</body>
+</html>
